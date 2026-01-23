@@ -1,0 +1,91 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Sachkunde-mit-Verstand – Erklärvideos</title>
+  <style>
+    :root{--bg:#0b1320;--card:#111c2e;--text:#e9eef7;--muted:#b8c2d6;--line:#23314a;--accent:#ffd54a;}
+    *{box-sizing:border-box}
+    body{margin:0;background:linear-gradient(180deg,var(--bg),#060a12);color:var(--text);
+      font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif}
+    .wrap{max-width:1100px;margin:0 auto;padding:18px}
+    header{display:flex;gap:14px;flex-wrap:wrap;align-items:flex-end;justify-content:space-between;margin-bottom:14px}
+    h1{font-size:20px;margin:0}
+    .sub{color:var(--muted);font-size:13px;margin-top:4px;line-height:1.35}
+    .grid{display:grid;gap:14px}
+    @media(min-width:980px){ .grid{grid-template-columns:1fr 1fr;} }
+    .card{background:rgba(17,28,46,.96);border:1px solid var(--line);border-radius:14px;padding:14px;
+      box-shadow:0 10px 30px rgba(0,0,0,.25)}
+    .title{display:flex;align-items:baseline;justify-content:space-between;gap:10px;flex-wrap:wrap}
+    .title h2{margin:0;font-size:16px}
+    .hint{color:var(--muted);font-size:12px}
+    .frame{position:relative;width:100%;padding-top:56.25%;border:1px solid var(--line);
+      border-radius:14px;overflow:hidden;background:rgba(0,0,0,.25);margin-top:10px}
+    iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
+    code{background:rgba(255,255,255,.06);padding:2px 6px;border-radius:8px;border:1px solid var(--line)}
+    .footer{color:var(--muted);font-size:12px;margin-top:10px;line-height:1.35}
+    a{color:var(--text)}
+    .btn{display:inline-block;margin-top:10px;padding:10px 12px;border-radius:12px;border:1px solid var(--line);
+      background:rgba(255,255,255,.04);text-decoration:none;font-weight:700}
+    .btn:hover{border-color:#3a4f74}
+    .note{border-left:4px solid var(--accent);padding:10px 12px;background:rgba(255,213,74,.08);
+      border-radius:12px;border:1px solid rgba(255,213,74,.25);margin-bottom:14px}
+  </style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <div>
+      <h1>Sachkunde-mit-Verstand – Erklärvideos</h1>
+      <div class="sub">BGB, StGB, Fallbeispiele BGB, Fallbeispiele StGB.</div>
+    </div>
+  </header>
+
+  <div class="note">
+    Wenn du diese Datei als <code>lokale Datei</code> (oder im Chat-Sandbox-Viewer) öffnest, kann YouTube mit <strong>Fehler 153</strong> reagieren.
+    Sobald die Seite über eine normale URL läuft (z.B. GitHub Pages), funktioniert die Einbettung. Darunter sind zusätzlich direkte Playlist-Links.
+  </div>
+
+  <div class="grid" id="grid"></div>
+
+  <div class="footer">
+    Falls es sogar auf GitHub Pages nicht klappt: Prüfe, ob die Playlists/Videos <em>öffentlich</em> oder <em>nicht gelistet</em> sind (nicht privat),
+    und ob es normale Videos sind (keine Sonder-Restriktionen).
+  </div>
+</div>
+
+<script>
+  const PLAYLISTS = {'"Sachkunde-mit-Verstand – BGB": {"id":"PLOTcXP_YhBoqofwd_g2buRN6w_hSzExgd","url":"https://www.youtube.com/playlist?list=PLOTcXP_YhBoqofwd_g2buRN6w_hSzExgd"}, "Sachkunde-mit-Verstand – StGB": {"id":"PLOTcXP_YhBoo8HT-PrLFOtvwvj8zzB47p","url":"https://www.youtube.com/playlist?list=PLOTcXP_YhBoo8HT-PrLFOtvwvj8zzB47p"}, "Fallbeispiele BGB": {"id":"PLOTcXP_YhBooOSkGQgR-fs4dH2dGVrGqV","url":"https://www.youtube.com/playlist?list=PLOTcXP_YhBooOSkGQgR-fs4dH2dGVrGqV"}, "Fallbeispiele StGB": {"id":"PLOTcXP_YhBoolV_0ZjL7BgUOA_bOz67Fr","url":"https://www.youtube.com/playlist?list=PLOTcXP_YhBoolV_0ZjL7BgUOA_bOz67Fr"}'};
+
+  const grid = document.getElementById("grid");
+  const safe = (s)=>String(s).replaceAll("&","&amp;").replaceAll("<","&lt;").replaceAll(">","&gt;");
+
+  for (const [title, data] of Object.entries(PLAYLISTS)) {
+    const id = data.id;
+    const url = data.url;
+
+    const card = document.createElement("div");
+    card.className = "card";
+
+    card.innerHTML = `
+      <div class="title">
+        <h2>${safe(title)}</h2>
+        <div class="hint">Playlist-ID: <code>${safe(id)}</code></div>
+      </div>
+
+      <div class="frame">
+        <iframe
+          src="https://www.youtube.com/embed/videoseries?list=${encodeURIComponent(id)}"
+          title="${safe(title)}"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+          allowfullscreen></iframe>
+      </div>
+
+      <a class="btn" href="${url}" target="_blank" rel="noopener">Playlist auf YouTube öffnen</a>
+    `;
+    grid.appendChild(card);
+  }
+</script>
+</body>
+</html>
